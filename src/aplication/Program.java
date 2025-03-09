@@ -31,15 +31,14 @@ public class Program {
         sc.nextLine();
         LocalDate dataRealDevolucao = LocalDate.parse(sc.next(), fmt);
 
-
         Emprestimo emprestimo = new Emprestimo(new Usuario(user), new Livro(titulo), dataEmprestimo, dias, dataRealDevolucao);
         BibliotecaService bibliotecaService = new BibliotecaService(new PlanoPadrao());
 
-        bibliotecaService.processarEmprestimo(emprestimo);
+        double empProcessado = bibliotecaService.processarEmprestimo(emprestimo);
 
         System.out.println("Empréstimo registrado: ");
         System.out.println(emprestimo);
-        System.out.printf("Multa por atraso: R$%.2f", bibliotecaService.getMulta());
+        System.out.printf("Multa por atraso: R$%.2f", empProcessado);
 
        
         

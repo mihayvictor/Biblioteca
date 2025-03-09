@@ -7,28 +7,19 @@ import model.entities.Emprestimo;
 public class BibliotecaService {
 
     private ServicoEmprestimo servicoEmprestimo;
-    Double multa;
-    Integer diasAtraso=0;
-    
 
     public BibliotecaService(ServicoEmprestimo servicoEmprestimo) {
         this.servicoEmprestimo = servicoEmprestimo;
     }
 
-    public void processarEmprestimo(Emprestimo emprestimo){
+    public Double processarEmprestimo(Emprestimo emprestimo){
+        Integer diasAtraso=0;
         if (emprestimo.getDataRealDevolucao().isAfter(emprestimo.getDataDevolucaoPrevista())) {
            diasAtraso = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getDays(); 
         }
-        multa = servicoEmprestimo.calcularMulta(diasAtraso); 
+        return servicoEmprestimo.calcularMulta(diasAtraso); 
     }
 
-    public Double getMulta() {
-        return multa;
-    }
-
-    public Integer getDiasAtraso() {
-        return diasAtraso;
-    }
 
 
     

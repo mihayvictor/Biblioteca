@@ -68,8 +68,6 @@ public class Program {
             bw.newLine();
             bw.write(String.valueOf(emp));
             bw.newLine();
-            bw.write(String.format("Multa por atraso: %.2f", Double.toString(empProcessado)) );
-            bw.newLine();
         }
         bw.write(String.format("Total da multa por atraso: R$%.2f", totalEmpProcessado));
         bw.close();

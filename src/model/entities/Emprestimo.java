@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Emprestimo {
     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private Usuario user;
     private Livro livro;
     private LocalDate dataEmprestimo;
     private LocalDate dataRealDevolucao;
@@ -13,21 +12,13 @@ public class Emprestimo {
     private Integer dias;
     
     
-    public Emprestimo(Usuario user, Livro livro, LocalDate dataEmprestimo, Integer dias, LocalDate dataRealDevolucao) {
-        this.user = user;
+    public Emprestimo(Livro livro, LocalDate dataEmprestimo, Integer dias, LocalDate dataRealDevolucao) {
+        
         this.livro = livro;
         this.dataEmprestimo = dataEmprestimo;
         this.dias = dias;
         this.dataRealDevolucao = dataRealDevolucao;
         this.dataDevolucaoPrevista = dataEmprestimo.plusDays(dias);
-    }
-
-    public Usuario getUser() {
-        return user;
-    }
-
-    public void setUser(Usuario user) {
-        this.user = user;
     }
 
     public Livro getLivro() {
@@ -68,8 +59,7 @@ public class Emprestimo {
 
     @Override
     public String toString() {
-        return "Usuário: " + user + "\n" 
-        + "Livro: " + livro + "\n" 
+        return "Livro: " + livro + "\n" 
         + "Data de empréstimo: " + fmt.format(dataEmprestimo) + "\n" 
         + "Data prevista para a devolução: " + fmt.format(dataDevolucaoPrevista)+ "\n" 
         + "Data real de devolução: " + fmt.format(dataRealDevolucao);

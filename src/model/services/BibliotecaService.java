@@ -1,5 +1,8 @@
 package model.services;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Period;
 
 import model.entities.Emprestimo;
@@ -20,6 +23,10 @@ public class BibliotecaService {
         return servicoEmprestimo.calcularMulta(diasAtraso); 
     }
 
+    public void gerarBoleto() throws IOException{
+        String path = "/home/mihay96/nota.txt";
+        BufferedWriter bw = new BufferedWriter(new FileWriter(path));
+    }
 
 
     

@@ -1,7 +1,5 @@
 package aplication;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +16,8 @@ import model.services.PlanoPadrao;
 
 public class Program {
     public static void main(String[] args) throws IOException {
+        
+        BibliotecaService bibliotecaService = new BibliotecaService(new PlanoPadrao());
         double empProcessado = 0.0;
         double totalEmpProcessado = 0.0;
         Usuario usuario = new Usuario();
@@ -27,6 +27,7 @@ public class Program {
         Scanner sc = new Scanner(System.in);
         System.out.print("Nome do usuário: ");
         String user = sc.nextLine();
+        
         System.out.print("Quantos Livros deseja cadastrar?: ");
         int n = sc.nextInt();
         for(int i = 0; i<n; i++){
@@ -42,37 +43,29 @@ public class Program {
         sc.nextLine();
         LocalDate dataRealDevolucao = LocalDate.parse(sc.next(), fmt);
         
-        usuario = new Usuario(user);
+        usuario = new Usuario(user, emprestimos);
         Emprestimo emprestimo = new Emprestimo(new Livro(titulo), dataEmprestimo, dias, dataRealDevolucao);
         
-        BibliotecaService bibliotecaService = new BibliotecaService(new PlanoPadrao());
-
         empProcessado = bibliotecaService.processarEmprestimo(emprestimo);
-        System.out.println("Livro " + emprestimo.getLivro());
+        System.out.println("Livro: " + emprestimo.getLivro());
         System.out.printf("Multa por atraso: R$%.2f%n", empProcessado);
         totalEmpProcessado += empProcessado;
-        emprestimos.add(emprestimo);
+        usuario.getEmprestimo().add(emprestimo);
+        
         }
 
         System.out.println("Empréstimo registrado: ");
         System.out.println(usuario.getNome());
-        for (Emprestimo emp : emprestimos) {
+        for (Emprestimo emp : usuario.getEmprestimo()) {
             System.out.println(emp);
         }
         
         System.out.printf("Total da multa por atraso: R$%.2f%n", totalEmpProcessado);
-        String path = "/home/mihay96/nota.txt";
-        BufferedWriter bw = new BufferedWriter(new FileWriter(path));
-        bw.write("Usuário: " + usuario.getNome());
-        for (Emprestimo emp : emprestimos) {
-            bw.newLine();
-            bw.write(String.valueOf(emp));
-            bw.newLine();
-        }
-        bw.write(String.format("Total da multa por atraso: R$%.2f", totalEmpProcessado));
-        bw.close();
+               bibliotecaService.emitirNotaFiscal(usuario, usuario.getEmprestimo());
+        
+        
+        
         sc.close();
-        System.out.println("Nota Fiscal gerada com sucesso!!!");
 
 
 

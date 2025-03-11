@@ -5,14 +5,15 @@ import java.util.List;
 
 public class Usuario {
     private String nome;
-    List<Emprestimo> emprestimo = new ArrayList<>();
+    List<Emprestimo> emprestimos = new ArrayList<>();
 
-    public Usuario(String nome) {
+    public Usuario(String nome, List<Emprestimo> emprestimos) {
         this.nome = nome;
+        this.emprestimos = emprestimos;
     }
 
     public Usuario() {
-        //TODO Auto-generated constructor stub
+        
     }
 
     public String getNome() {
@@ -29,7 +30,7 @@ public class Usuario {
     }
 
     public List<Emprestimo> getEmprestimo() {
-        return emprestimo;
+        return emprestimos;
     }
 
 

@@ -12,8 +12,7 @@ public class Usuario {
         this.emprestimos = emprestimos;
     }
 
-    public Usuario() {
-        
+    public Usuario() {  
     }
 
     public String getNome() {

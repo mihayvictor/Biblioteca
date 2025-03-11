@@ -11,9 +11,7 @@ public class Emprestimo {
     private LocalDate dataDevolucaoPrevista;
     private Integer dias;
     
-    
     public Emprestimo(Livro livro, LocalDate dataEmprestimo, Integer dias, LocalDate dataRealDevolucao) {
-        
         this.livro = livro;
         this.dataEmprestimo = dataEmprestimo;
         this.dias = dias;

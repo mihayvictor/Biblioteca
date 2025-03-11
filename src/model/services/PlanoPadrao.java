@@ -1,10 +1,4 @@
 package model.services;
-
-import java.time.LocalDate;
-import java.time.Period;
-
-import model.entities.Emprestimo;
-
 public class PlanoPadrao implements ServicoEmprestimo {
 
     @Override

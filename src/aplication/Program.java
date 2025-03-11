@@ -17,14 +17,18 @@ import model.services.PlanoPadrao;
 public class Program {
     public static void main(String[] args) throws IOException {
         
-        BibliotecaService bibliotecaService = new BibliotecaService(new PlanoPadrao());
-        double empProcessado = 0.0;
-        double totalEmpProcessado = 0.0;
-        Usuario usuario = new Usuario();
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        
         Locale.setDefault(Locale.US);
-        List<Emprestimo> emprestimos = new ArrayList<>();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         Scanner sc = new Scanner(System.in);
+        
+        double totalEmpProcessado = 0.0;
+        double empProcessado = 0.0;
+        
+        Usuario usuario = new Usuario();
+        List<Emprestimo> emprestimos = new ArrayList<>();
+        BibliotecaService bibliotecaService = new BibliotecaService(new PlanoPadrao());
+        
         System.out.print("Nome do usuário: ");
         String user = sc.nextLine();
         
@@ -51,7 +55,6 @@ public class Program {
         System.out.printf("Multa por atraso: R$%.2f%n", empProcessado);
         totalEmpProcessado += empProcessado;
         usuario.getEmprestimo().add(emprestimo);
-        
         }
 
         System.out.println("Empréstimo registrado: ");
@@ -61,13 +64,9 @@ public class Program {
         }
         
         System.out.printf("Total da multa por atraso: R$%.2f%n", totalEmpProcessado);
-               bibliotecaService.emitirNotaFiscal(usuario, usuario.getEmprestimo());
-        
-        
+        bibliotecaService.emitirNotaFiscal(usuario, usuario.getEmprestimo());
         
         sc.close();
-
-
 
     }
 

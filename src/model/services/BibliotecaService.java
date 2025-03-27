@@ -24,9 +24,11 @@ public class BibliotecaService {
         Integer diasAtraso=0; 
         int meses = 0;
         int anos = 0;
-        boolean validarData = false;
+        boolean processoFinalizado = false;
 
-        do{
+        while (processoFinalizado == false) {
+            
+        
          meses = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getMonths();
          
          anos = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getYears();
@@ -37,9 +39,6 @@ public class BibliotecaService {
                 emprestimo.setDataRealDevolucao(InputUtils.solicitarData("qual a data real de devolução (dd/MM/yyyy)? ", scanner));
                 continue;
             }
-            validarData = true;
-        
-        }while (validarData == false);
 
             if (anos > 0) {
                 return (double) anos * 1200;
@@ -47,11 +46,13 @@ public class BibliotecaService {
             else if ( meses > 0) {
                 return (double) meses * 100;
             }   
-            else if (emprestimo.getDataRealDevolucao().isAfter(emprestimo.getDataDevolucaoPrevista())) {
+            if (emprestimo.getDataRealDevolucao().isAfter(emprestimo.getDataDevolucaoPrevista())) {
             diasAtraso = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getDays(); 
             }
-         
-         return servicoEmprestimo.calcularMulta(diasAtraso);
+
+            processoFinalizado = true;
+        }
+        return servicoEmprestimo.calcularMulta(diasAtraso);
     }
 
     public void emitirNotaFiscal(Usuario usuario, List<Emprestimo> emprestimos) throws IOException{

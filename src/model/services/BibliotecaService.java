@@ -28,7 +28,6 @@ public class BibliotecaService {
 
         while (processoFinalizado == false) {
             
-        
          meses = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getMonths();
          
          anos = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getYears();
@@ -46,7 +45,7 @@ public class BibliotecaService {
             else if ( meses > 0) {
                 return (double) meses * 100;
             }   
-            if (emprestimo.getDataRealDevolucao().isAfter(emprestimo.getDataDevolucaoPrevista())) {
+            else if (emprestimo.getDataRealDevolucao().isAfter(emprestimo.getDataDevolucaoPrevista())) {
             diasAtraso = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getDays(); 
             }
 

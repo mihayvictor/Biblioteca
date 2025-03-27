@@ -51,9 +51,6 @@ public class Program {
                 System.out.printf("Total da multa por atraso: R$%.2f%n", totalEmpProcessado);
                 bibliotecaService.emitirNotaFiscal(usuario, usuario.getEmprestimo());
                 
-            
-        
-           
             scanner.close();
         
     }

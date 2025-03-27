@@ -44,7 +44,6 @@ public class BibliotecaService {
             else if (emprestimo.getDataRealDevolucao().isAfter(emprestimo.getDataDevolucaoPrevista())) {
             diasAtraso = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getDays(); 
             }
-
          
          return servicoEmprestimo.calcularMulta(diasAtraso);
     }

@@ -23,10 +23,13 @@ public class BibliotecaService {
     public Double processarEmprestimo(Emprestimo emprestimo){
         Integer diasAtraso=0; 
         int meses = 0;
+        int anos = 0;
         boolean validarData = false;
 
         do{
          meses = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getMonths();
+         
+         anos = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getYears();
         
             if (emprestimo.getDataRealDevolucao().isBefore(emprestimo.getDataEmprestimo())) {
                 System.out.println("A data de real da devolução não pode ser anterior a data do emprestímo! ");
@@ -37,8 +40,11 @@ public class BibliotecaService {
             validarData = true;
         
         }while (validarData == false);
-        
-            if ( meses > 0) {
+
+            if (anos > 0) {
+                return (double) anos * 1200;
+            }
+            else if ( meses > 0) {
                 return (double) meses * 100;
             }   
             else if (emprestimo.getDataRealDevolucao().isAfter(emprestimo.getDataDevolucaoPrevista())) {

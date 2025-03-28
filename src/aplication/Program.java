@@ -26,6 +26,7 @@ public class Program {
             int n = InputUtils.solicitarInt("Quantos livros quer cadastrar? ", scanner);
 
                 double totalEmpProcessado = 0;
+
                 for(int i = 0; i<n; i++){
                 String titulo = InputUtils.solicitarstring("Qual o título do livro? ", scanner);
                 LocalDate dataEmprestimo = InputUtils.solicitarData("Qual a data do emprestímo (dd/MM/yyyy)? ", scanner);

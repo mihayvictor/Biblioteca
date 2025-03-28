@@ -13,6 +13,11 @@ import utils.InputUtils;
 
 public class BibliotecaService {
 
+    private int diasAtraso; 
+    private int meses;
+    private int anos;
+    private double totalAtrasoPorLivro;
+
     private Scanner scanner = new Scanner(System.in);
     private ServicoEmprestimo servicoEmprestimo;
 
@@ -20,45 +25,45 @@ public class BibliotecaService {
         this.servicoEmprestimo = servicoEmprestimo;
     }
 
-    public Double processarEmprestimo(Emprestimo emprestimo){
-        Integer diasAtraso=0; 
-        int meses = 0;
-        int anos = 0;
-        boolean processoFinalizado = false;
+    public void validarData(Emprestimo emprestimo){
+        boolean validarData = false;
 
-        while (processoFinalizado == false) {
-            
-         meses = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getMonths();
-         
-         anos = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getYears();
+        while (validarData == false) {
         
             if (emprestimo.getDataRealDevolucao().isBefore(emprestimo.getDataEmprestimo())) {
-                System.out.println("A data de real da devolução não pode ser anterior a data do emprestímo! ");
+
+                System.out.println("A data real da devolução não pode ser anterior a data do emprestímo! ");
                 emprestimo.setDataEmprestimo(InputUtils.solicitarData("Qual a data do emprestimo (dd/MM/yyyy)? ", scanner));
                 emprestimo.setDataRealDevolucao(InputUtils.solicitarData("qual a data real de devolução (dd/MM/yyyy)? ", scanner));
                 continue;
             }
 
-            if (anos > 0) {
-                return (double) anos * 1200;
-            }
-            else if ( meses > 0) {
-                return (double) meses * 100;
-            }   
-            else if (emprestimo.getDataRealDevolucao().isAfter(emprestimo.getDataDevolucaoPrevista())) {
+            meses = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getMonths();
+            anos = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getYears();
             diasAtraso = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getDays(); 
-            }
 
-            processoFinalizado = true;
+            validarData = true;
         }
-        return servicoEmprestimo.calcularMulta(diasAtraso);
+    }
+
+    public Double processarEmprestimo(Emprestimo emprestimo){
+       
+        validarData(emprestimo);
+
+        totalAtrasoPorLivro = servicoEmprestimo.calcularAnosAtrasado(anos);
+
+        totalAtrasoPorLivro += servicoEmprestimo.calcularMesesAtrasado(meses);
+
+        totalAtrasoPorLivro += servicoEmprestimo.calcularDiasAtrasado(diasAtraso);
+        
+        return totalAtrasoPorLivro;
     }
 
     public void emitirNotaFiscal(Usuario usuario, List<Emprestimo> emprestimos) throws IOException{
         String path = "/home/mihay96/nota.txt";
         BufferedWriter bw = new BufferedWriter(new FileWriter(path));
         double totalMulta = 0;
-        bw.write("Usuário: " + usuario.getNome());
+        bw.write("Nome do usuário: " + usuario.getNome());
         bw.newLine();
         
         for (Emprestimo emp : emprestimos) {
@@ -69,9 +74,11 @@ public class BibliotecaService {
             totalMulta += processarEmprestimo(emp);
             bw.newLine();
         }
-        
+
+        bw.newLine();
         bw.write(String.format("Total da multa por atraso: R$%.2f%n", totalMulta));
         System.out.println("Nota Fiscal gerada com sucesso!!!");
+
         bw.close();
         scanner.close();
         

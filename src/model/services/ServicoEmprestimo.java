@@ -1,5 +1,9 @@
 package model.services;
 public interface ServicoEmprestimo {
 
-    Double calcularMulta(int diasAtrasado);
+    Double calcularDiasAtrasado(int diasAtrasado);
+
+    Double calcularMesesAtrasado(int mesesAtrasado);
+
+    Double calcularAnosAtrasado(int anosAtrasado);
 }

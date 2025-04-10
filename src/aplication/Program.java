@@ -24,6 +24,10 @@ public class Program {
         
             String user = InputUtils.solicitarstring("Nome do usuário: ", scanner);
             int n = InputUtils.solicitarInt("Quantos livros quer cadastrar? ", scanner);
+            while (n < 1) {
+                System.out.println("Erro: impossível registrar menos de 1 livro.");
+                n = InputUtils.solicitarInt("Quantos livros quer cadastrar? ", scanner);
+            }
 
                 double totalEmpProcessado = 0;
 
@@ -31,6 +35,10 @@ public class Program {
                 String titulo = InputUtils.solicitarstring("Qual o título do livro? ", scanner);
                 LocalDate dataEmprestimo = InputUtils.solicitarData("Qual a data do emprestímo (dd/MM/yyyy)? ", scanner);
                 int dias = InputUtils.solicitarInt("Qual o número de dias para a devlução? ", scanner);
+                while (dias < 1) {
+                    System.out.println("Erro: O número de dias para emprestimo de um livro não pode ser menor que 1.");
+                    dias = InputUtils.solicitarInt("Qual o número de dias para a devolução? ", scanner);
+                }
                 LocalDate dataRealDevolucao = InputUtils.solicitarData("Qual a data real de devolução (dd/MM/yyyy)? ", scanner);
                 
                 usuario = new Usuario(user, emprestimos);

@@ -21,6 +21,12 @@ public class Emprestimo {
         this.dataDevolucaoPrevista = dataEmprestimo.plusDays(dias);
     }
 
+    
+
+    public void setDataDevolucaoPrevista(LocalDate dataDevolucaoPrevista) {
+        this.dataDevolucaoPrevista = dataDevolucaoPrevista;
+    }
+
     public Livro getLivro() {
         return livro;
     }

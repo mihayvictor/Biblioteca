@@ -32,8 +32,10 @@ public class BibliotecaService {
             //Valida se a data de devolução não antes da data de empréstimo
             if (emprestimo.getDataRealDevolucao().isBefore(emprestimo.getDataEmprestimo())) {
 
-                System.out.println("A data real da devolução não pode ser anterior a data do emprestímo! ");
+                System.out.println("A data real da devolução não pode ser anterior a data do empréstimo! ");
                 emprestimo.setDataEmprestimo(InputUtils.solicitarData("Qual a data do emprestimo (dd/MM/yyyy)? ", scanner));
+                int dias = InputUtils.solicitarInt("Qual o número de dias para a devlução? ", scanner);
+                emprestimo.setDataDevolucaoPrevista(emprestimo.getDataEmprestimo().plusDays(dias));
                 emprestimo.setDataRealDevolucao(InputUtils.solicitarData("qual a data real de devolução (dd/MM/yyyy)? ", scanner));
                 continue;
             }

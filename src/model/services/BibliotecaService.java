@@ -24,12 +24,12 @@ public class BibliotecaService {
     public BibliotecaService(ServicoEmprestimo servicoEmprestimo) {
         this.servicoEmprestimo = servicoEmprestimo;
     }
-
+ 
     public void validarData(Emprestimo emprestimo){
         boolean validarData = false;
 
         while (validarData == false) {
-        
+            //Valida se a data de devolução não antes da data de empréstimo
             if (emprestimo.getDataRealDevolucao().isBefore(emprestimo.getDataEmprestimo())) {
 
                 System.out.println("A data real da devolução não pode ser anterior a data do emprestímo! ");
@@ -38,14 +38,18 @@ public class BibliotecaService {
                 continue;
             }
 
-            meses = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getMonths();
+            //calcula os anos de atrasados 
             anos = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getYears();
+            //Calcula os meses atrasados
+            meses = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getMonths();
+            //calcula os dias atrasados
             diasAtraso = Period.between(emprestimo.getDataDevolucaoPrevista(), emprestimo.getDataRealDevolucao()).getDays(); 
 
             validarData = true;
         }
     }
 
+    //Processa o empréstimo com base no tempo de atraso
     public Double processarEmprestimo(Emprestimo emprestimo){
        
         validarData(emprestimo);
@@ -59,6 +63,7 @@ public class BibliotecaService {
         return totalAtrasoPorLivro;
     }
 
+    //Gera nota fiscal
     public void emitirNotaFiscal(Usuario usuario, List<Emprestimo> emprestimos) throws IOException{
         String path = "/home/mihay96/nota.txt";
         BufferedWriter bw = new BufferedWriter(new FileWriter(path));

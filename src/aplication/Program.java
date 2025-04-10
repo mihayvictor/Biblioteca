@@ -21,14 +21,17 @@ public class Program {
         Usuario usuario = new Usuario();
         List<Emprestimo> emprestimos = new ArrayList<>();
         BibliotecaService bibliotecaService = new BibliotecaService(new PlanoPadrao());
-        
+
             String user = InputUtils.solicitarstring("Nome do usuário: ", scanner);
+
+            //registra quantos livros quer cadastrar no programa
             int n = InputUtils.solicitarInt("Quantos livros quer cadastrar? ", scanner);
             while (n < 1) {
                 System.out.println("Erro: impossível registrar menos de 1 livro.");
                 n = InputUtils.solicitarInt("Quantos livros quer cadastrar? ", scanner);
             }
 
+                //Registra cada empréstimo
                 double totalEmpProcessado = 0;
 
                 for(int i = 0; i<n; i++){
@@ -44,20 +47,24 @@ public class Program {
                 usuario = new Usuario(user, emprestimos);
                 Emprestimo emprestimo = new Emprestimo(new Livro(titulo), dataEmprestimo, dias, dataRealDevolucao);
                 
+                //Processa o empréstimo calculado o juros com base no tempo de atrso de cada livro 
                 double empProcessado = bibliotecaService.processarEmprestimo(emprestimo);
                 System.out.println("Livro: " + emprestimo.getLivro());
                 System.out.printf("Multa por atraso: R$%.2f%n", empProcessado);
+                //Soma os juros de cada livro
                 totalEmpProcessado += empProcessado;
                 usuario.getEmprestimo().add(emprestimo);
                 }
-                
+                //Mostra na tela todos os empréstimos registrados
                 System.out.println("Empréstimo registrado: ");
                 System.out.println(usuario.getNome());
                 for (Emprestimo emp : usuario.getEmprestimo()) {
                     System.out.println(emp);
                 }
                 
+                //Mostra na tela o total da multa
                 System.out.printf("Total da multa por atraso: R$%.2f%n", totalEmpProcessado);
+                //Gera a nota fiscal do usuário
                 bibliotecaService.emitirNotaFiscal(usuario, usuario.getEmprestimo());
                 
             scanner.close();
